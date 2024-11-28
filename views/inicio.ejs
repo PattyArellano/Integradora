@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #b386a0;
+            color: #333;
+        }
+
+        .welcome-card {
+            background-color: #fff;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .welcome-card h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-card h2 {
+            font-size: 1.5rem;
+            color: #555;
+            font-weight: 400;
+        }
+
+\        .divider {
+            width: 50%;
+            height: 3px;
+            background-color: #e193ca;
+            margin: 1rem;
+            border-radius: 5px;
+        }
+
+\        .welcome-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-card">
+        <h1>Bienvenido</h1>
+        <div class="divider"></div>
+        <h1><%= usuario %></h1>
+        <h2><%= rol %></h2>
+    </div>
+</body>
+</html>

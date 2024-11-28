@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restablecer Contraseña</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .message {
+            text-align: center;
+            margin-top: 10px;
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Restablecer Contraseña</h1>
+
+        <!-- Formulario para solicitar restablecimiento -->
+        <form id="requestResetForm">
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" placeholder="Ingresa tu correo" required>
+            <button type="submit">Solicitar Restablecimiento</button>
+        </form>
+
+        <div class="message" id="requestMessage"></div>
+
+        <hr>
+
+        <!-- Formulario para restablecer la contraseña -->
+        <form id="resetPasswordForm">
+            <label for="token">Token:</label>
+            <input type="text" id="token" placeholder="Ingresa el token recibido" required>
+
+            <label for="newPassword">Nueva contraseña:</label>
+            <input type="password" id="newPassword" placeholder="Ingresa la nueva contraseña" required>
+            
+            <button type="submit">Restablecer Contraseña</button>
+        </form>
+
+        <div class="message" id="resetMessage"></div>
+    </div>
+
+    <script>
+        // Manejar el formulario de solicitud de restablecimiento
+        document.getElementById('requestResetForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/request-password-reset', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email }),
+                });
+                const data = await response.json();
+                const messageElement = document.getElementById('requestMessage');
+                messageElement.textContent = data.message;
+                messageElement.classList.remove('error');
+            } catch (error) {
+                const messageElement = document.getElementById('requestMessage');
+                messageElement.textContent = 'Error al solicitar restablecimiento.';
+                messageElement.classList.add('error');
+            }
+        });
+
+        // Manejar el formulario de restablecimiento de contraseña
+        document.getElementById('resetPasswordForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const token = document.getElementById('token').value;
+            const newPassword = document.getElementById('newPassword').value;
+
+            try {
+                const response = await fetch(`http://localhost:3000/reset-password/${token}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ newPassword }),
+                });
+                const data = await response.json();
+                const messageElement = document.getElementById('resetMessage');
+                messageElement.textContent = data.message;
+                messageElement.classList.remove('error');
+            } catch (error) {
+                const messageElement = document.getElementById('resetMessage');
+                messageElement.textContent = 'Error al restablecer la contraseña.';
+                messageElement.classList.add('error');
+            }
+        });
+    </script>
+</body>
+</html>
